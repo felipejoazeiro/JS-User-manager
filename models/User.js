@@ -1,45 +1,61 @@
-class User{
-    constructor(name,gender,birth,country,email,password,photo,admin){
-        this._name  = name
-        this._gender = gender
-        this._birth = birth
-        this._email = email
-        this._country = country
-        this._email = password
-        this._photo = photo
-        this._admin = admin
-        this._register = new Date()
+class User {
+
+    constructor(name, gender, birth, country, email, password, photo, admin){
+
+        this._id;
+        this._name = name;
+        this._gender = gender;
+        this._birth = birth;
+        this._country = country;
+        this._email = email;
+        this._password = password;
+        this._photo = photo;
+        this._admin = admin;
+        this._register = new Date();
+
     }
+
+    get id(){
+        return this._id;
+    }
+
     get register(){
-        return this._register
+        return this._register;
     }
+
     get name(){
-        return this._name
+        return this._name;
     }
-    get gender(){
-        return this._gender
+
+    get gender() {
+        return this._gender;
     }
-    get birth(){
-        return this._birth
+
+    get birth() {
+        return this._birth;
     }
-    get email(){
-        return this._email
+
+    get country() {
+        return this._country;
     }
-    get country(){
-        return this._country
+
+    get email() {
+        return this._email;
     }
-    get password(){
-        return this._password
+
+    get photo() {
+        return this._photo;
     }
-    get photo(){
-        return this._photo
+
+    get password() {
+        return this._password;
     }
-    get admin(){
-        return this._admin
+
+    get admin() {
+        return this._admin;
     }
 
     set photo(value){
-        this._photo = value
+        this._photo = value;
     }
-
 }

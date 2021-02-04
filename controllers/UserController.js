@@ -142,19 +142,10 @@ class UserController{
         );
     }
 
-    getUserStorage(){
-        let users = []
-        if(localStorage.getItem("user")){
-            user = JSON.parse(localStorage.getItem("users")
-            )
-        }
-        return users
-    }
-
     selectAll(){
-        let user = this.getUserStorage()
+        let users = User.getUserStorage()
 
-        user.forEach(dataUser=>{
+        users.forEach(dataUser=>{
             let user = new User()
             user.loadFromJSON(dataUser)
             this.addLine(users)

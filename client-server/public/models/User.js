@@ -69,7 +69,7 @@ class User {
                     this[name] = new Date(json[name]);
                 break;
                 default:
-                    this[name] = json[name];
+                    if(name.substring(0 , 1)==='_') this[name] = json[name];
 
             }
             
@@ -80,60 +80,34 @@ class User {
 
     static getUsersStorage() {
 
-        let users = [];
-
-        if (localStorage.getItem("users")) {
-
-            users = JSON.parse(localStorage.getItem("users"));
-
-        }
-
-        return users;
+       return Fetch.get('/users')
 
     }
 
-    getNewID(){
-
-        let usersID = parseInt(localStorage.getItem("usersID"));
-
-        if (!usersID > 0) usersID = 0;
-
-        usersID++;
-
-        localStorage.setItem("usersID", usersID);
-
-        return usersID;
-
+    toJSON(){
+        let json = {}
+        Object.keys(this).forEach(key=>{
+            if(this[key] !== undefined) json[key] = this[key]
+        })
+        return json
     }
 
     save(){
+        new Promise((resolve,reject)=>{
 
-        let users = User.getUsersStorage();
-
-        if (this.id > 0) {
-            
-            users.map(u=>{
-
-                if (u._id == this.id) {
-
-                    Object.assign(u, this);
-
-                }
-
-                return u;
-
-            });
-
-        } else {
-
-            this._id = this.getNewID();
-
-            users.push(this);
-
-        }
-
-        localStorage.setItem("users", JSON.stringify(users));
-
+            let promise 
+            if(this.id){
+                promise = HttpRequest.put(`/users/${this.id}`, this.toJSON())
+            }else{
+                promise = HttpRequest.post(`/users`, this.toJSON())
+            }
+            promise.then(data=>{
+                this.loadFromJSON(data)
+                resolve(this)
+            }).catch(e=>{
+                reject(e)
+            })
+        })
     }
 
     remove(){
@@ -154,4 +128,7 @@ class User {
 
     }
 
+    remove(){
+        return HttpRequest.delete(`/users/${this.id}`)
+    }
 }
